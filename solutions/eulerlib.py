@@ -110,4 +110,55 @@ def is_palindrome(n):
 
 	return original == reversed_num	
 
+def is_pandigital(n):
+    """
+    Returns 1 if integer n is '1..len(str(n))' pandigital and 0 if not.
+    Specifically, for a k-digit number, we require that its digits are
+    exactly the set {1, 2, ..., k}.
+	- Parameters: integer n
+    - Time complexity: O(log(n))
+    """
+    # We'll build a bitmask of which digits have appeared.
+    # If n has k digits, we need digits {1, 2, ..., k} exactly.
+    
+    if n <= 0:
+        return 0
 
+    used_digits = 0
+    length = 0
+    max_digit = 0
+    temp = n
+    
+    while temp > 0:
+        digit = temp % 10
+        temp //= 10
+
+        if digit == 0:
+            return 0
+
+        # Check if 'digit' was already used
+        mask = 1 << digit
+        if used_digits & mask:
+            return 0  
+        used_digits |= mask
+        
+        if digit > max_digit:
+            max_digit = digit
+
+        length += 1
+
+    # Now 'length' is the total number of digits in n.
+    # For n to be '1..length' pandigital, we must have:
+    #   - The largest digit == length
+    #   - Exactly the bits for digits {1..length} set in 'used_digits'
+    # The bitmask for digits {1..k} is: (1 << (k+1)) - 2
+    # (which sets bits 1 through k, ignoring bit 0).
+
+    # 1..length => bits 1..length => e.g. for length=4 => binary 11110 == 30
+    # (1 << (4+1)) - 2 = (1 << 5) - 2 = 32 - 2 = 30
+
+    if max_digit != length:
+        return 0
+
+    correct_mask = (1 << (length + 1)) - 2
+    return 1 if used_digits == correct_mask else 0
