@@ -21,11 +21,13 @@ Or more generally as:
 import eulerlib as el
 ```
 
-Ensure you have Python installed, and run the solutions using:
+Ensure you have Python and PyPy installed, and run the solutions using:
 ```bash
-python peXXX.py
+pypy peXXX.py
 ```
 Where XXX is the number of the problem.
+
+The reason PyPy was chosen instead of running in pure Python is because most of the problems will run under 1 second by taking that approach.
 
 ## Contributions
 
